@@ -3,9 +3,6 @@ parse = require 'slick/lib/parser'
 
 # TODO selector using asyncxml.Builder::register
 
-test = (regex, value) ->
-    RegExp(regex).test(value)
-
 
 class Selector extends EventEmitter
     constructor: (tpl) ->
@@ -17,12 +14,23 @@ class Selector extends EventEmitter
         @builder = @template.xml ? @template
         @builder._selectors = ({i, level:0} for s,i in @selectors)
         @builder.on('add', @onadd.bind(this))
+        this
 
     onlistener: (event, listener) ->
         for sel in parse event
             sel.event =  event
             @builder?._selectors.push {i:@selectors.length, level:0}
             @selectors.push sel
+            # cache operator regexps
+            for s of sel when s.attributes?
+                for a in s.attributes
+                    esc = a.escapedValue
+                    a.operatorRegExp = switch a.operator
+                        when '^=' then RegExp(      "^#{esc}"       )
+                        when '$=' then RegExp(       "#{esc}$"      )
+                        when '~=' then RegExp("(^|\\s)#{esc}(\\s|$)")
+                        when '|=' then RegExp(      "^#{esc}(-|$)"  )
+                        else null
         this
 
     onadd: (parent, el) ->
@@ -62,12 +70,10 @@ class Selector extends EventEmitter
             return no if not (val = tag.attr(a.name))
             esc = a.escapedValue
             switch a.operator
-                when '^=' then return no unless test(      "^#{esc}"       ,val)
-                when '$=' then return no unless test(       "#{esc}$"      ,val)
-                when '~=' then return no unless test("(^|\\s)#{esc}(\\s|$)",val)
-                when '|=' then return no unless test(      "^#{esc}(-|$)"  ,val)
                 when '*=' then return no if val.indexOf(a.value) is -1
                 when  '=' then return no if val isnt a.value
+                when '^=','$=','~=','|='
+                    return no unless a.operatorRegExp.test(val)
                 else return no
         # pseudos
         # TODO
