@@ -32,3 +32,23 @@ module.exports =
             "<span>y</span>"
             "<span>burritos</span>"
         ]
+
+    partial: (æ) ->
+        results = [
+            '<div class="x"></div>'
+            '<div class="x">fin</div>'
+            '<circle class="x"/>'
+        ]
+        tpl = new Template schema:5, ->
+            @$div class:'x', ->
+                @add new Template schema:'svg', ->
+                    @$svg ->
+                        @$circle class:'x'
+                    @on 'end', ->
+                        æ.equals results.length, 0
+                        æ.done()
+            @$div class:'x', "fin"
+
+        $(tpl).on '.x', (el) ->
+            el.once('end', -> æ.equals @toString(), results.shift())
+
