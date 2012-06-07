@@ -8,6 +8,7 @@
 , "engines": {"node": ">= 0.4.x"}
 , "keywords": ["dt", "async", "dynamic", "event", "template", "generation", "stream", "browser", "css", "selector", "engine"]
 , "scripts": {
+    "test": "cake build && nodeunit test",
     "prepublish": "cake build"}
 , "dependencies": {
     "slick": "1.9.1-alpha"}
