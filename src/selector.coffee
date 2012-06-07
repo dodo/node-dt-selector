@@ -53,7 +53,7 @@ class Selector extends EventEmitter
         return no if sel.id?  and sel.id  isnt tag.attr('id')
         # classes
         tagclass = tag.attr('class') ? ""
-        return no for cls in sel.classList ? [] when tagclass.indexOf(cls) is -1
+        return no for cls in sel.classList ? [] when (typeof(tagclass.indexOf) is 'undefined' || tagclass.indexOf(cls) is -1)
         # attributes
         for a in sel.attributes ? []
             unless a.operator
