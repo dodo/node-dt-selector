@@ -36,7 +36,7 @@ class Selector extends EventEmitter
     onadd: (parent, el) ->
         matched = {} # set
         el._selectors = []
-        for sel in parent._selectors
+        for sel in parent._selectors ? @builder._selectors
             selector = @selectors[sel.i]
             if sel.combinator isnt '>' # FIXME more plz
                 el._selectors.push sel
