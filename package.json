@@ -11,7 +11,7 @@
     "test": "cake build && nodeunit test",
     "prepublish": "cake build"}
 , "dependencies": {
-    "slick": "1.9.1-alpha"}
+    "slick": "1.10.x"}
 , "devDependencies": {
     "dynamictemplate": "0.5.4",
     "browserify": ">= 2.26.0",

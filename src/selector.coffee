@@ -1,5 +1,5 @@
 { EventEmitter } = require 'events'
-parse = require 'slick/lib/parser'
+parse = require 'slick/parser'
 
 # TODO selector using asyncxml.Builder::register
 
