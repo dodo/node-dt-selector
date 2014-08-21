@@ -13,7 +13,7 @@
 , "dependencies": {
     "slick": "1.10.x"}
 , "devDependencies": {
-    "dynamictemplate": "0.5.4",
+    "dynamictemplate": "0.7.0",
     "browserify": ">= 2.26.0",
     "muffin": ">= 0.2.6",
     "nodeunit": ">= 0.7.4",
